@@ -74,7 +74,6 @@ const resetScreen = () => {
 // Creates the listeners on all buttons.
 const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
   if(aiDifficulty === 3) {
-    console.log("You're DOOOOOOMEDDDDDDD!!!!!!");
     for(let i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener("click", () => {
         if(!choiceVar) {
@@ -126,7 +125,6 @@ const playerGame = () => {
   let p1Buttons = document.querySelectorAll(".player1 button");
   let p2Buttons = document.querySelectorAll(".player2 button");
 
-  console.log("creating buttons...");
   createButtonListeners(player1Choice, p1Buttons, 1, gameType);
   createButtonListeners(player2Choice, p2Buttons, 2, gameType);
 }
@@ -138,7 +136,6 @@ const showDifficultyMenu = () => {
 }
 
 const setComputerDifficulty = (diff) => {
-  console.log(diff);
   aiDifficulty = diff;
   difficultyChoice.style.display = "none";
   computerGame();
@@ -163,29 +160,22 @@ const createAiMove = (num) => {
 
 // The case where the game is player vs computer.
 const computerGame = () => {
-  console.log("vs computer!");
 
   gameType = 2;
 
   if(aiDifficulty === 1) {
     let aiMove;
     let aiMoveNum = Math.ceil(Math.random() * 3);
-    console.log(aiMoveNum);
     createAiMove(aiMoveNum);
   } else if (aiDifficulty === 2) {
     if(!nextAiMove) {
       let aiMove;
       let aiMoveNum = Math.ceil(Math.random() * 3);
-      console.log(aiMoveNum);
       createAiMove(aiMoveNum);
     } else {
       computerChoice = nextAiMove;
     }
-  } else if (aiDifficulty === 3) {
-    console.log("Hah! You lost already!!!");
-    // And now we wait...
   }
-  console.log(computerChoice);
 
   aiBoard = document.querySelector(".computerGame");
   aiBoard.style.display = "block";
@@ -196,8 +186,8 @@ const computerGame = () => {
   createButtonListeners(player1Choice, humanButtons, 1, gameType);
 }
 
-const main = () => {
-  console.log("Ready to go!");
-}
+// const main = () => {
+//   console.log("Ready to go!");
+// }
 
-document.addEventListener('DOMContentLoaded', main);
+// document.addEventListener('DOMContentLoaded', main);
