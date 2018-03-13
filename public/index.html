@@ -4,10 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rock Paper Scissors</title>
-    <link rel="stylesheet" href="/screen.css">
+    <link rel="stylesheet" href="./screen.css">
   </head>
   <body>
-    <h1>Hello, World!</h1>
-    <script src="/main.js" charset="utf-8"></script>
+    <h1>Rock paper scissors!</h1>
+
+    <section class="playerGame">
+      <section class="player1">
+        <button>Rock</button>
+        <button>Paper</button>
+        <button>Scissors</button>
+      </section>
+
+      <section class="player2">
+        <button>Rock</button>
+        <button>Paper</button>
+        <button>Scissors</button>
+      </section>
+    </section>
+    <section class="computerGame"></section>
+
+    <section class="gameChoice">
+      <button class="vsPlayer" onclick="playerGame()">Versus player</button>
+
+      <button class="vsComputer" onclick="computerGame()">Versus computer</button>
+    </section>
+
+
+    <script src="./main.js" charset="utf-8"></script>
   </body>
 </html>
