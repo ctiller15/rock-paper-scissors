@@ -1,3 +1,4 @@
+const difficultyChoice = document.querySelector(".difficulty");
 const gameChoice = document.querySelector(".gameChoice");
 
 let playerBoard;
@@ -7,6 +8,7 @@ let player2Choice = "";
 let computerChoice = "";
 let gameType = "";
 let nextAiMove = "";
+let aiDifficulty = "";
 
 //checks to see if the game is over.
 const checkGame = (option1, option2, type) => {
@@ -60,20 +62,42 @@ const checkGame = (option1, option2, type) => {
 
 // Creates the listeners on all buttons.
 const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
-  for(let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", () => {
-      if(!choiceVar) {
-        choiceVar = buttons[i].textContent;
-        playerType == 1 ? player1Choice = choiceVar.toLowerCase() : playerType == 2 ? player2Choice = choiceVar.toLowerCase() : computerChoice = choiceVar.toLowerCase();
-        if(gameType == 1) {
-          checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase(), gameType);
-        } else if (gameType == 2) {
+  if(aiDifficulty === 3) {
+    console.log("You're DOOOOOOMEDDDDDDD!!!!!!");
+    for(let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", () => {
+        if(!choiceVar) {
+          choiceVar = buttons[i].textContent;
+          player1Choice = choiceVar.toLowerCase();
+          // Choosing the computer's choice...
+          if(player1Choice == "rock") {
+            computerChoice = "paper";
+          } else if (player1Choice == "paper") {
+            computerChoice = "scissors";
+          } else if (player1Choice == "scissors") {
+            computerChoice = "rock";
+          }
           console.log("Choosing a winner...");
-          checkGame(player1Choice.toLowerCase(), computerChoice.toLowerCase(), gameType);
+          checkGame(player1Choice.toLowerCase(), computerChoice, gameType);
         }
-      }
-    });
-  }  
+      });
+    }  
+  } else {
+    for(let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener("click", () => {
+        if(!choiceVar) {
+          choiceVar = buttons[i].textContent;
+          playerType == 1 ? player1Choice = choiceVar.toLowerCase() : playerType == 2 ? player2Choice = choiceVar.toLowerCase() : computerChoice = choiceVar.toLowerCase();
+          if(gameType == 1) {
+            checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase(), gameType);
+          } else if (gameType == 2) {
+            console.log("Choosing a winner...");
+            checkGame(player1Choice.toLowerCase(), computerChoice.toLowerCase(), gameType);
+          }
+        }
+      });
+    }
+  }
 }
 
 // The case in where the game is player vs player.
@@ -92,8 +116,15 @@ const playerGame = () => {
   createButtonListeners(player2Choice, p2Buttons, 2, gameType);
 }
 
-const computerDifficulty = () => {
-  
+const showDifficultyMenu = () => {
+  difficultyChoice.style.display = "block";
+}
+
+const setComputerDifficulty = (diff) => {
+  console.log(diff);
+  aiDifficulty = diff;
+  difficultyChoice.style.display = "none";
+  computerGame();
 }
 
 // The case where the game is player vs computer.
@@ -102,7 +133,7 @@ const computerGame = () => {
 
   gameType = 2;
 
-  if(!nextAiMove) {
+  if(aiDifficulty === 1) {
     let aiMove;
     let aiMoveNum = Math.ceil(Math.random() * 3);
     console.log(aiMoveNum);
@@ -120,9 +151,32 @@ const computerGame = () => {
         console.log("Huh!? What's that supposed to be!?")
         break;
     }
-  } else {
-    computerChoice = nextAiMove;
+  } else if (aiDifficulty === 2) {
+    if(!nextAiMove) {
+      let aiMove;
+      let aiMoveNum = Math.ceil(Math.random() * 3);
+      console.log(aiMoveNum);
+      switch (aiMoveNum) {
+        case 1:
+          computerChoice = "rock";
+          break;
+        case 2:
+          computerChoice = "paper";
+          break;
+        case 3:
+          computerChoice = "scissors";
+          break;
+        default:
+          console.log("Huh!? What's that supposed to be!?")
+          break;
+      }
+    } else {
+      computerChoice = nextAiMove;
+    }
+  } else if (aiDifficulty === 3) {
+    console.log("Hah! You lost already!!!");
   }
+
 
   console.log(computerChoice);
 

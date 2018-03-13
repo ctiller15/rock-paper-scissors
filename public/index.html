@@ -30,10 +30,16 @@
       </section>
     </section>
 
+    <section class="difficulty">
+      <button onClick="setComputerDifficulty(1)">Easy</button>
+      <button onClick="setComputerDifficulty(2)">Strategic</button>
+      <button onClick="setComputerDifficulty(3)">Psychic</button>
+    </section>
+
     <section class="gameChoice">
       <button class="vsPlayer" onclick="playerGame()">Versus player</button>
 
-      <button class="vsComputer" onclick="computerGame()">Versus computer</button>
+      <button class="vsComputer" onclick="showDifficultyMenu()">Versus computer</button>
     </section>
 
 
