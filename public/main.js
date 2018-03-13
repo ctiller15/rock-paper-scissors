@@ -1,51 +1,76 @@
 const gameChoice = document.querySelector(".gameChoice");
 
+let playerBoard;
+
 let player1Choice = "";
 let player2Choice = "";
 let computerChoice = "";
+let gameType = "";
+let nextAiMove = "";
 
 //checks to see if the game is over.
-const checkGame = (option1, option2) => {
-  // console.log(option1, option2);
+const checkGame = (option1, option2, type) => {
   console.log("The winner is...");
   if(option1 && option2) {
     console.log("There is a winner!");
+    
     if(option1 == option2) {
       console.log("TIE!");
+      nextAiMove = "scissors";
     } else if(option1 == "rock") {
+      
       if(option2 == "paper") {
         console.log("Player 2 Wins!");
+        nextAiMove = "rock";
       } else if (option2 == "scissors") {
         console.log("Player 1 Wins!");
+        nextAiMove = "paper";
       }
     } else if (option1 == "paper") {
+      
       if(option2 == "rock") {
         console.log("Player 1 Wins!");
+        nextAiMove = "scissors";
       } else if (option2 == "scissors") {
         console.log("Player 2 Wins!");
+        nextAiMove = "paper";
       }
     } else if (option1 == "scissors") {
+      
       if(option2 == "paper") {
         console.log("Player 1 Wins!");
+        nextAiMove = "rock";
       } else if (option2 == "rock") {
         console.log("Player 2 Wins!");
+        nextAiMove = "scissors";
       }
     }
+
+    // This chunk of code reloads the game.
+    gameChoice.style.display = "block";
+    player1Choice = "";
+    player2Choice = "";
+    computerChoice = "";
+    gameType = "";
+
   } else {
     console.log("There is not a winner yet!");
   }
 }
 
-const createButtonListeners = (choiceVar, buttons, playerType) => {
-  console.log(choiceVar);
+// Creates the listeners on all buttons.
+const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
   for(let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", () => {
       if(!choiceVar) {
         choiceVar = buttons[i].textContent;
-        console.log(choiceVar.toLowerCase());
         playerType == 1 ? player1Choice = choiceVar.toLowerCase() : playerType == 2 ? player2Choice = choiceVar.toLowerCase() : computerChoice = choiceVar.toLowerCase();
-        // console.log(buttons[i].textContent);
-        checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase());
+        if(gameType == 1) {
+          checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase(), gameType);
+        } else if (gameType == 2) {
+          console.log("Choosing a winner...");
+          checkGame(player1Choice.toLowerCase(), computerChoice.toLowerCase(), gameType);
+        }
       }
     });
   }  
@@ -54,23 +79,60 @@ const createButtonListeners = (choiceVar, buttons, playerType) => {
 // The case in where the game is player vs player.
 const playerGame = () => {
 
-  let playerBoard = document.querySelector(".playerGame");
-  // console.log(playerBoard.style);
+  gameType = 1;
+
   playerBoard.style.display = "block";
   gameChoice.style.display = "none";
 
-  var p1Buttons = document.querySelectorAll(".player1 button");
-  var p2Buttons = document.querySelectorAll(".player2 button");
+  let p1Buttons = document.querySelectorAll(".player1 button");
+  let p2Buttons = document.querySelectorAll(".player2 button");
 
   console.log("creating buttons...");
-  createButtonListeners(player1Choice, p1Buttons, 1);
-  createButtonListeners(player2Choice, p2Buttons, 2);
+  createButtonListeners(player1Choice, p1Buttons, 1, gameType);
+  createButtonListeners(player2Choice, p2Buttons, 2, gameType);
 }
 
+const computerDifficulty = () => {
+  
+}
 
 // The case where the game is player vs computer.
 const computerGame = () => {
   console.log("vs computer!");
+
+  gameType = 2;
+
+  if(!nextAiMove) {
+    let aiMove;
+    let aiMoveNum = Math.ceil(Math.random() * 3);
+    console.log(aiMoveNum);
+    switch (aiMoveNum) {
+      case 1:
+        computerChoice = "rock";
+        break;
+      case 2:
+        computerChoice = "paper";
+        break;
+      case 3:
+        computerChoice = "scissors";
+        break;
+      default:
+        console.log("Huh!? What's that supposed to be!?")
+        break;
+    }
+  } else {
+    computerChoice = nextAiMove;
+  }
+
+  console.log(computerChoice);
+
+  let playerBoard = document.querySelector(".computerGame");
+  playerBoard.style.display = "block";
+  gameChoice.style.display = "none";
+  
+  let humanButtons = document.querySelectorAll(".humanPlayer button");
+
+  createButtonListeners(player1Choice, humanButtons, 1, gameType);
 }
 
 const main = () => {
