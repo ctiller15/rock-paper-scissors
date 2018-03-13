@@ -1,7 +1,9 @@
 const difficultyChoice = document.querySelector(".difficulty");
 const gameChoice = document.querySelector(".gameChoice");
+const winMessage = document.querySelector(".winMessage");
 
 let playerBoard;
+let aiBoard;
 
 let player1Choice = "";
 let player2Choice = "";
@@ -12,51 +14,60 @@ let aiDifficulty = "";
 
 //checks to see if the game is over.
 const checkGame = (option1, option2, type) => {
-  console.log("The winner is...");
   if(option1 && option2) {
-    console.log("There is a winner!");
     
     if(option1 == option2) {
-      console.log("TIE!");
+      winMessage.textContent = "TIE!!!";
       nextAiMove = "scissors";
     } else if(option1 == "rock") {
       
       if(option2 == "paper") {
-        console.log("Player 2 Wins!");
+        winMessage.textContent = "Player 2 Wins!!!";
         nextAiMove = "rock";
       } else if (option2 == "scissors") {
-        console.log("Player 1 Wins!");
+        winMessage.textContent = "Player 1 Wins!!!";
         nextAiMove = "paper";
       }
     } else if (option1 == "paper") {
       
       if(option2 == "rock") {
-        console.log("Player 1 Wins!");
+        winMessage.textContent = "Player 1 Wins!!!";
         nextAiMove = "scissors";
       } else if (option2 == "scissors") {
-        console.log("Player 2 Wins!");
+        winMessage.textContent = "Player 2 Wins!!!";
         nextAiMove = "paper";
       }
     } else if (option1 == "scissors") {
       
       if(option2 == "paper") {
-        console.log("Player 1 Wins!");
+        winMessage.textContent = "Player 1 Wins!!!";
         nextAiMove = "rock";
       } else if (option2 == "rock") {
-        console.log("Player 2 Wins!");
+        winMessage.textContent = "Player 2 Wins!!!";
         nextAiMove = "scissors";
       }
     }
 
-    // This chunk of code reloads the game.
-    gameChoice.style.display = "block";
-    player1Choice = "";
-    player2Choice = "";
-    computerChoice = "";
-    gameType = "";
+    reloadGame();
 
   } else {
     console.log("There is not a winner yet!");
+  }
+}
+
+const reloadGame = () => {
+  // This chunk of code reloads the game.
+  gameChoice.style.display = "block";
+  player1Choice = "";
+  player2Choice = "";
+  computerChoice = "";
+}
+
+const resetScreen = () => {
+  if(gameType === 1) {
+    playerBoard.style.display = "none";
+  } else if (gameType === 2) {
+    aiBoard.style.display = "none";
   }
 }
 
@@ -102,9 +113,13 @@ const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
 
 // The case in where the game is player vs player.
 const playerGame = () => {
+  winMessage.textContent = "";
+
+  resetScreen();
 
   gameType = 1;
 
+  playerBoard = document.querySelector(".playerGame");
   playerBoard.style.display = "block";
   gameChoice.style.display = "none";
 
@@ -117,6 +132,8 @@ const playerGame = () => {
 }
 
 const showDifficultyMenu = () => {
+  winMessage.textContent = "";
+  resetScreen();
   difficultyChoice.style.display = "block";
 }
 
@@ -125,6 +142,23 @@ const setComputerDifficulty = (diff) => {
   aiDifficulty = diff;
   difficultyChoice.style.display = "none";
   computerGame();
+}
+
+const createAiMove = (num) => {
+  switch (num) {
+    case 1:
+      computerChoice = "rock";
+      break;
+    case 2:
+      computerChoice = "paper";
+      break;
+    case 3:
+      computerChoice = "scissors";
+      break;
+    default:
+      console.log("Huh!? What's that supposed to be!?");
+      break;
+  }
 }
 
 // The case where the game is player vs computer.
@@ -137,51 +171,24 @@ const computerGame = () => {
     let aiMove;
     let aiMoveNum = Math.ceil(Math.random() * 3);
     console.log(aiMoveNum);
-    switch (aiMoveNum) {
-      case 1:
-        computerChoice = "rock";
-        break;
-      case 2:
-        computerChoice = "paper";
-        break;
-      case 3:
-        computerChoice = "scissors";
-        break;
-      default:
-        console.log("Huh!? What's that supposed to be!?")
-        break;
-    }
+    createAiMove(aiMoveNum);
   } else if (aiDifficulty === 2) {
     if(!nextAiMove) {
       let aiMove;
       let aiMoveNum = Math.ceil(Math.random() * 3);
       console.log(aiMoveNum);
-      switch (aiMoveNum) {
-        case 1:
-          computerChoice = "rock";
-          break;
-        case 2:
-          computerChoice = "paper";
-          break;
-        case 3:
-          computerChoice = "scissors";
-          break;
-        default:
-          console.log("Huh!? What's that supposed to be!?")
-          break;
-      }
+      createAiMove(aiMoveNum);
     } else {
       computerChoice = nextAiMove;
     }
   } else if (aiDifficulty === 3) {
     console.log("Hah! You lost already!!!");
+    // And now we wait...
   }
-
-
   console.log(computerChoice);
 
-  let playerBoard = document.querySelector(".computerGame");
-  playerBoard.style.display = "block";
+  aiBoard = document.querySelector(".computerGame");
+  aiBoard.style.display = "block";
   gameChoice.style.display = "none";
   
   let humanButtons = document.querySelectorAll(".humanPlayer button");
