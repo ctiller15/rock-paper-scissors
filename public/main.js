@@ -1,7 +1,13 @@
 const gameChoice = document.querySelector(".gameChoice");
 
+let player1Choice = "";
+let player2Choice = "";
+let computerChoice = "";
+
 //checks to see if the game is over.
 const checkGame = (option1, option2) => {
+  // console.log(option1, option2);
+  console.log("The winner is...");
   if(option1 && option2) {
     console.log("There is a winner!");
     if(option1 == option2) {
@@ -30,35 +36,35 @@ const checkGame = (option1, option2) => {
   }
 }
 
+const createButtonListeners = (choiceVar, buttons, playerType) => {
+  console.log(choiceVar);
+  for(let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", () => {
+      if(!choiceVar) {
+        choiceVar = buttons[i].textContent;
+        console.log(choiceVar.toLowerCase());
+        playerType == 1 ? player1Choice = choiceVar.toLowerCase() : playerType == 2 ? player2Choice = choiceVar.toLowerCase() : computerChoice = choiceVar.toLowerCase();
+        // console.log(buttons[i].textContent);
+        checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase());
+      }
+    });
+  }  
+}
+
 // The case in where the game is player vs player.
 const playerGame = () => {
-  let player1Choice = "";
-  let player2Choice = "";
-
 
   let playerBoard = document.querySelector(".playerGame");
-  console.log(playerBoard.style);
+  // console.log(playerBoard.style);
   playerBoard.style.display = "block";
   gameChoice.style.display = "none";
 
   var p1Buttons = document.querySelectorAll(".player1 button");
   var p2Buttons = document.querySelectorAll(".player2 button");
 
-  for(let i = 0; i < p1Buttons.length; i++) {
-    p1Buttons[i].addEventListener("click", () => {
-      player1Choice = p1Buttons[i].textContent;
-      console.log(p1Buttons[i].textContent);
-      checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase());
-    });
-  }
-
-  for(let i = 0; i < p1Buttons.length; i++) {
-    p2Buttons[i].addEventListener("click", () => {
-      player2Choice = p2Buttons[i].textContent;
-      console.log(p2Buttons[i].textContent);
-      checkGame(player1Choice.toLowerCase(), player2Choice.toLowerCase());
-    });
-  }
+  console.log("creating buttons...");
+  createButtonListeners(player1Choice, p1Buttons, 1);
+  createButtonListeners(player2Choice, p2Buttons, 2);
 }
 
 
