@@ -1,14 +1,27 @@
 html {
   height: 100%;
+  margin: 0px;
+  overflow: hidden;
 }
 
 body {
-  margin: 0;
-  min-height: 100%;
-  font: 16px / 1 sans-serif;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  color: white;
+  text-shadow: black 1px 1px 1px, black 1px -1px 1px, black -1px 1px 1px, black -1px -1px 1px;
+  margin: 0px;
+  overflow: hidden;
+  font: 16px/1 sans-serif;
+  background: url(./assets/images/Rock-paper-scissors.svg.png) center center no-repeat, grey;
+}
+
+button {
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
 }
 
 .player-title {
@@ -20,9 +33,43 @@ body {
 }
 
 .playerGame {
-  display: none;
+  /* display: none; */
 }
 
 .computerGame {
   display: none;
 }
+
+.gameChoice {
+  display: block;
+  text-align: center;
+  transform: translateY(0px);
+  opacity: 1;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.player1, .player2 {
+  transform: translateX(0px);
+  opacity: 1;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.leftTransition {
+  transform: translateX(-200%);
+  opacity: 0;
+}
+
+.rightTransition {
+  transform: translateX(200%);
+  opacity: 0;
+}
+
+.upTransition {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.disabled {
+  color: rgb(102, 102, 102);
+}
+

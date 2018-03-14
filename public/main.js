@@ -2,6 +2,12 @@ const difficultyChoice = document.querySelector(".difficulty");
 const gameChoice = document.querySelector(".gameChoice");
 const winMessage = document.querySelector(".winMessage");
 
+// Used for animations and transitions:
+const firstPlayerSection = document.querySelector(".player1");
+const secondPlayerSection = document.querySelector(".player2");
+const humanSection = document.querySelector(".humanPlayer");
+const promptMessage = document.querySelector(".gameChoice h3");
+
 let playerBoard;
 let aiBoard;
 
@@ -15,6 +21,10 @@ let aiDifficulty = "";
 //checks to see if the game is over.
 const checkGame = (option1, option2, type) => {
   if(option1 && option2) {
+    promptMessage.textContent = "Want to play again?";
+    firstPlayerSection.classList.remove("disabled");
+    secondPlayerSection.classList.remove("disabled");
+    humanSection.classList.remove("disabled");
     
     if(option1 == option2) {
       winMessage.textContent = "TIE!!!";
@@ -57,15 +67,16 @@ const checkGame = (option1, option2, type) => {
 
 const reloadGame = () => {
   // This chunk of code reloads the game.
-  gameChoice.style.display = "block";
+  gameChoice.classList.remove("upTransition");
   player1Choice = "";
   player2Choice = "";
   computerChoice = "";
+  console.log(player1Choice, player2Choice, computerChoice);
 }
 
 const resetScreen = () => {
   if(gameType === 1) {
-    playerBoard.style.display = "none";
+    // playerBoard.style.display = "none";
   } else if (gameType === 2) {
     aiBoard.style.display = "none";
   }
@@ -73,6 +84,7 @@ const resetScreen = () => {
 
 // Creates the listeners on all buttons.
 const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
+  // Checking the case where the game is against the unbeatable AI.
   if(aiDifficulty === 3) {
     for(let i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener("click", () => {
@@ -96,6 +108,13 @@ const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
     for(let i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener("click", () => {
         if(!choiceVar) {
+          if(playerType == 1) {
+            console.log(firstPlayerSection);
+            firstPlayerSection.classList.add("disabled");
+          } else if(playerType == 2) {
+            console.log(secondPlayerSection);
+            secondPlayerSection.classList.add("disabled");
+          }
           choiceVar = buttons[i].textContent;
           playerType == 1 ? player1Choice = choiceVar.toLowerCase() : playerType == 2 ? player2Choice = choiceVar.toLowerCase() : computerChoice = choiceVar.toLowerCase();
           if(gameType == 1) {
@@ -119,8 +138,10 @@ const playerGame = () => {
   gameType = 1;
 
   playerBoard = document.querySelector(".playerGame");
-  playerBoard.style.display = "block";
-  gameChoice.style.display = "none";
+  // playerBoard.style.display = "block";
+  gameChoice.classList.add("upTransition");
+  firstPlayerSection.classList.remove("leftTransition");
+  secondPlayerSection.classList.remove("rightTransition");
 
   let p1Buttons = document.querySelectorAll(".player1 button");
   let p2Buttons = document.querySelectorAll(".player2 button");
@@ -131,6 +152,10 @@ const playerGame = () => {
 
 const showDifficultyMenu = () => {
   winMessage.textContent = "";
+  gameChoice.classList.add("upTransition");
+  firstPlayerSection.classList.add("leftTransition");
+  secondPlayerSection.classList.add("rightTransition");
+
   resetScreen();
   difficultyChoice.style.display = "block";
 }
@@ -179,7 +204,7 @@ const computerGame = () => {
 
   aiBoard = document.querySelector(".computerGame");
   aiBoard.style.display = "block";
-  gameChoice.style.display = "none";
+  gameChoice.classList.add("upTransition");
   
   let humanButtons = document.querySelectorAll(".humanPlayer button");
 
