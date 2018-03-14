@@ -9,7 +9,6 @@ const humanSection = document.querySelector(".humanPlayer");
 const promptMessage = document.querySelector(".gameChoice h3");
 
 let playerBoard;
-// let aiBoard;
 
 let player1Choice = "";
 let player2Choice = "";
@@ -20,41 +19,39 @@ let aiDifficulty = "";
 
 //checks to see if the game is over.
 const checkGame = (option1, option2, type) => {
+
   if(option1 && option2) {
+
     promptMessage.textContent = "Want to play again?";
-    firstPlayerSection.classList.remove("disabled");
-    secondPlayerSection.classList.remove("disabled");
-    humanSection.classList.remove("disabled");
+    addRemoveClasses("remove", [firstPlayerSection, "disabled"], [secondPlayerSection, "disabled"], [humanSection, "disabled"]);
+    // firstPlayerSection.classList.remove("disabled");
+    // secondPlayerSection.classList.remove("disabled");
+    // humanSection.classList.remove("disabled");
     
     if(option1 == option2) {
-      winMessage.textContent = "TIE!!!";
-      nextAiMove = "scissors";
+      nextAiMove = setMessageAndNextMove("TIE!!!", "scissors");
     } else if(option1 == "rock") {
       
       if(option2 == "paper") {
-        winMessage.textContent = "Player 2 Wins!!!";
-        nextAiMove = "rock";
+        nextAiMove = setMessageAndNextMove("Player 2 Wins!!!", "rock");
       } else if (option2 == "scissors") {
-        winMessage.textContent = "Player 1 Wins!!!";
-        nextAiMove = "paper";
+        nextAiMove = setMessageAndNextMove("Player 1 Wins!!!", "paper");
       }
+
     } else if (option1 == "paper") {
       
       if(option2 == "rock") {
-        winMessage.textContent = "Player 1 Wins!!!";
-        nextAiMove = "scissors";
+        nextAiMove = setMessageAndNextMove("Player 1 Wins!!!", "scissors");
       } else if (option2 == "scissors") {
-        winMessage.textContent = "Player 2 Wins!!!";
-        nextAiMove = "paper";
+        nextAiMove = setMessageAndNextMove("Player 2 Wins!!!", "paper");
       }
+
     } else if (option1 == "scissors") {
       
       if(option2 == "paper") {
-        winMessage.textContent = "Player 1 Wins!!!";
-        nextAiMove = "rock";
+        nextAiMove = setMessageAndNextMove("Player 1 Wins!!!", "rock");
       } else if (option2 == "rock") {
-        winMessage.textContent = "Player 2 Wins!!!";
-        nextAiMove = "scissors";
+        nextAiMove = setMessageAndNextMove("Player 2 Wins!!!", "scissors");
       }
     }
 
@@ -65,6 +62,25 @@ const checkGame = (option1, option2, type) => {
   }
 }
 
+const setMessageAndNextMove = (message, nextMove) => {
+  winMessage.textContent = message;
+  return nextMove;
+}
+
+const addRemoveClasses = (option, ...args) => {
+  // console.log(option);
+  // console.log(args);
+  // args[0][0].classList.add(args[0][1]);
+  for(let i = 0; i < args.length; i++) {
+    args[i][0].classList[option](args[i][1]);
+  }
+  
+}
+
+// const addClass = (nodeItem, className) => {
+//   nodeItem.add("");
+// }
+
 const reloadGame = () => {
   // This chunk of code reloads the game.
   gameChoice.classList.remove("upTransition");
@@ -72,8 +88,8 @@ const reloadGame = () => {
   player2Choice = "";
   computerChoice = "";
   aiDifficulty = "";
-  console.log(player1Choice, player2Choice, computerChoice);
-  console.log("game reset!");
+  // console.log(player1Choice, player2Choice, computerChoice);
+  // console.log("game reset!");
 }
 
 const resetScreen = () => {
@@ -111,10 +127,8 @@ const createButtonListeners = (choiceVar, buttons, playerType, gameType) => {
       buttons[i].addEventListener("click", () => {
         if(!choiceVar) {
           if(playerType == 1) {
-            console.log(firstPlayerSection);
             firstPlayerSection.classList.add("disabled");
           } else if(playerType == 2) {
-            console.log(secondPlayerSection);
             secondPlayerSection.classList.add("disabled");
           }
           choiceVar = buttons[i].textContent;
@@ -140,7 +154,7 @@ const playerGame = () => {
   gameType = 1;
 
   playerBoard = document.querySelector(".playerGame");
-  // playerBoard.style.display = "block";
+
   gameChoice.classList.add("upTransition");
   firstPlayerSection.classList.remove("leftTransition");
   secondPlayerSection.classList.remove("rightTransition");
@@ -153,10 +167,12 @@ const playerGame = () => {
 }
 
 const showDifficultyMenu = () => {
+  addRemoveClasses("add", [gameChoice, "upTransition"], [firstPlayerSection, "leftTransition"], [secondPlayerSection, "rightTransition"]);
   winMessage.textContent = "";
-  gameChoice.classList.add("upTransition");
-  firstPlayerSection.classList.add("leftTransition");
-  secondPlayerSection.classList.add("rightTransition");
+
+  // gameChoice.classList.add("upTransition");
+  // firstPlayerSection.classList.add("leftTransition");
+  // secondPlayerSection.classList.add("rightTransition");
 
   resetScreen();
   difficultyChoice.classList.remove("downTransition");
@@ -203,8 +219,6 @@ const computerGame = () => {
     }
   }
 
-  // aiBoard = document.querySelector(".computerGame");
-  // aiBoard.style.display = "block";
   gameChoice.classList.add("upTransition");
   humanSection.classList.remove("downTransition");
   
