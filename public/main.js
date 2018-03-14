@@ -9,7 +9,7 @@ const humanSection = document.querySelector(".humanPlayer");
 const promptMessage = document.querySelector(".gameChoice h3");
 
 let playerBoard;
-let aiBoard;
+// let aiBoard;
 
 let player1Choice = "";
 let player2Choice = "";
@@ -71,14 +71,16 @@ const reloadGame = () => {
   player1Choice = "";
   player2Choice = "";
   computerChoice = "";
+  aiDifficulty = "";
   console.log(player1Choice, player2Choice, computerChoice);
+  console.log("game reset!");
 }
 
 const resetScreen = () => {
   if(gameType === 1) {
     // playerBoard.style.display = "none";
   } else if (gameType === 2) {
-    aiBoard.style.display = "none";
+    humanSection.classList.add("downTransition");
   }
 }
 
@@ -157,12 +159,12 @@ const showDifficultyMenu = () => {
   secondPlayerSection.classList.add("rightTransition");
 
   resetScreen();
-  difficultyChoice.style.display = "block";
+  difficultyChoice.classList.remove("downTransition");
 }
 
 const setComputerDifficulty = (diff) => {
   aiDifficulty = diff;
-  difficultyChoice.style.display = "none";
+  difficultyChoice.classList.add("downTransition");
   computerGame();
 }
 
@@ -187,24 +189,24 @@ const createAiMove = (num) => {
 const computerGame = () => {
 
   gameType = 2;
-
+  
+  let aiMove;
+  let aiMoveNum = Math.ceil(Math.random() * 3);
   if(aiDifficulty === 1) {
-    let aiMove;
-    let aiMoveNum = Math.ceil(Math.random() * 3);
+
     createAiMove(aiMoveNum);
   } else if (aiDifficulty === 2) {
     if(!nextAiMove) {
-      let aiMove;
-      let aiMoveNum = Math.ceil(Math.random() * 3);
       createAiMove(aiMoveNum);
     } else {
       computerChoice = nextAiMove;
     }
   }
 
-  aiBoard = document.querySelector(".computerGame");
-  aiBoard.style.display = "block";
+  // aiBoard = document.querySelector(".computerGame");
+  // aiBoard.style.display = "block";
   gameChoice.classList.add("upTransition");
+  humanSection.classList.remove("downTransition");
   
   let humanButtons = document.querySelectorAll(".humanPlayer button");
 

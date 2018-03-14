@@ -24,26 +24,43 @@ button {
   border: none;
 }
 
+button:hover {
+  cursor: pointer;
+  background-color: #FFFFFF;
+}
+
 .player-title {
   text-align: center;
 }
 
+.winMessage {
+  height: 1em;
+}
+
 .difficulty {
-  display: none;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform .5s, opacity .5s;
 }
 
 .playerGame {
   /* display: none; */
 }
-
+/* 
 .computerGame {
   display: none;
-}
+} */
 
 .gameChoice {
   display: block;
   text-align: center;
   transform: translateY(0px);
+  opacity: 1;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.humanPlayer {
+  transform: translateY(0);
   opacity: 1;
   transition: transform 0.5s, opacity 0.5s;
 }
@@ -69,7 +86,16 @@ button {
   opacity: 0;
 }
 
+.downTransition {
+  transform: translateY(200%);
+  opacity: 0;
+}
+
 .disabled {
   color: rgb(102, 102, 102);
+}
+
+.disabled button {
+  background: #AAAAAA;
 }
 
